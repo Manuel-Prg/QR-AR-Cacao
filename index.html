@@ -1,90 +1,25 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejemplo AR.js</title>
-    
-    <!-- Aseguramos que las bibliotecas se carguen en el orden correcto -->
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-    
-    <!-- Agregamos un script para manejar errores -->
-    <script>
-        window.onload = function() {
-            const sceneEl = document.querySelector('a-scene');
-            
-            // Manejador de errores para la carga del marcador
-            sceneEl.addEventListener('arError', function(event) {
-                console.error('Error AR.js:', event.detail.error);
-                document.querySelector('.arjs-loader').innerHTML = 
-                    '<div>Error al cargar el marcador. Por favor, verifica la ruta.</div>';
-            });
+<html>  
+  <head>
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script> 
+    <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+  </head>   
 
-            // Manejador para cuando todo está listo
-            sceneEl.addEventListener('loaded', function() {
-                console.log('Scene loaded');
-            });
-        };
-    </script>
-
-    <style>
-        .arjs-loader {
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .arjs-loader div {
-            text-align: center;
-            font-size: 1.25em;
-            color: white;
-            padding: 1em;
-        }
-    </style>
-</head>
-
-<body style="margin: 0; overflow: hidden;">
-    <div class="arjs-loader">
-        <div>Cargando, por favor espere...</div>
-    </div>
-
-    <a-scene
-        vr-mode-ui="enabled: false;"
-        renderer="logarithmicDepthBuffer: true; antialias: true; alpha: true"
-        embedded
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: true; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
-
-        <!-- Modificamos la configuración del marcador NFT -->
-        <a-nft
-            type="nft"
-            url="./assets/detonador-Tambor.iset"
-            smooth="true"
-            smoothCount="10"
-            smoothTolerance="0.01"
-            smoothThreshold="5"
-            raycaster="objects: .clickable"
-            emitevents="true"
-            cursor="fuse: false; rayOrigin: mouse;">
-            
-            <a-entity
-                gltf-model="./assets/tamborileros.glb"
-                scale="5 5 5"
-                position="50 150 0"
-                rotation="0 0 0"
-                class="clickable"
-                gesture-handler>
-            </a-entity>
-        </a-nft>
-
-        <a-entity camera position="0 0 0"></a-entity>
+  <body style="margin: 0;">
+    <a-scene embedded arjs="debugUIEnabled: false;">
+      <!-- Define the marker first -->
+      <a-marker type="pattern" url="/assets/pattern-detonador-Tambor-3.patt">
+        <!-- Place the 3D model inside the marker -->
+        <a-entity 
+          gltf-model="/assets/tamborileros.glb" 
+          scale="0.6 0.6 0.6"
+          position="0 0 0"
+          rotation="0 0 0">
+        </a-entity>
+      </a-marker>
+      
+      <!-- Add the camera -->
+      <a-entity camera></a-entity>
     </a-scene>
-</body>
+  </body>
 </html>
